@@ -1,58 +1,127 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="container">
+    <h1>Agrega Una Nueva Tarea</h1>
+    <div class="dates">
+      <input type="text" class="input" placeholder="Ingresa un Nombre" aria-label="nombre" aria-describedby="button-addon2" v-model="nombre">
+      <div class="input-group-append">
+        <button class="button" type="button" @click="mostrarNombre">Agregar</button>
+      </div>
+    </div>
+    <section class="box" v-show="listaNombres.length > 0">
+      <div class="box-2">
+        <ul class="box_ul" v-for="(nombre,index) in listaNombres" :key="index">
+          <li>{{nombre}}</li>
+          <button type="button" class="button_2 btn btn-danger btn-sm" @click="eliminarNombre(index)">Eliminar</button>
+        </ul>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  data() {
+        return {
+            nombre: '',
+            listaNombres: []
+        }
+    },
+    methods: {
+        mostrarNombre(){
+            if (this.nombre) {
+                this.listaNombres.push(this.nombre);
+                this.nombre = "";
+            } else {
+                console.log("no tiene nombre");
+            }
+        },
+        eliminarNombre(index){
+            this.listaNombres.splice(index,1);
+        }
+    },
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
+<style >
+body {
+  margin: 0;
   padding: 0;
+  border: 0;
+  background: #1d1d1d;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-a {
-  color: #42b983;
+.box-2 {
+    position: relative;
+    margin: 50px;
+    width: 400px;
+    height: auto;
+    background: linear-gradient(0deg, #000000, #262626);
+    color: white;
+}
+.box-2:before, .box-2:after{
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background: linear-gradient(60deg, #fb0094, #0000ff, #00ff00, #fff000, #ff0000,#fb0094, #0000ff, #00ff00, #fff000, #ff0000);
+    background-size: 200%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: animate1 20s linear infinite;
+}
+.box-2:after{
+filter: blur(20px);
+}
+@keyframes animate1{
+    0%{
+        background-position: 0 0;
+    }
+    50%{
+        background-position: 600% 0;
+    }
+    100%{
+        background-position: 0 0;
+    }
+}
+ul li{
+  text-align: justify;
+  font-weight: 50px;
+}
+h1 {
+  color: red;
+}
+.input {
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+}
+.button {
+  margin: 30px;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  background: grey;
+  border: 3px solid red;
+}
+.box_ul {
+  display: inline-flex;
+  align-items: center;
+}
+.button_2 {
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  background: grey;
+  border: 3px solid red;
+  margin-left: 20px;
 }
 </style>
